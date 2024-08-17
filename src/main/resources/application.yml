@@ -35,3 +35,5 @@ app:
     pwdUpdatedFailed: Pwd update failed
     regSuccess: Registration successful
     regFailure: Registration Failed
+    quoteEndpointUrl: https://type.fit/api/quotes
+    regEmailSubject: Your Account Created - Ashok IT

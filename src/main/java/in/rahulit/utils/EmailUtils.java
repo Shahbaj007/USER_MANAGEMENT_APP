@@ -9,24 +9,30 @@ import jakarta.mail.internet.MimeMessage;
 
 @Component
 public class EmailUtils {
-	
-//	@Autowired
-//	private JavaMailSender mailSender;
-	
+
+	@Autowired
+	private JavaMailSender mailSender;
+
 	public boolean sendEmail(String subject, String body, String to) {
-		
+
 		boolean isSent = true;
+
+
+		try { MimeMessage mimeMessage = mailSender.createMimeMessage();
+
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+		helper.setSubject(subject); 
+		helper.setText(body, true); 
+		helper.setTo(to);
 		
-		/*
-		 * try { MimeMessage mimeMessage = mailSender.createMimeMessage();
-		 * 
-		 * MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
-		 * helper.setSubject(subject); helper.setText(body, true); helper.setTo(to);
-		 * 
-		 * } catch(Exception e) { e.printStackTrace(); }
-		 */
+//		mailSender.send(mimeMessage);
+		
+		isSent = true;
+
+		} catch(Exception e) { e.printStackTrace(); }
+
 		return isSent;
-		
+
 	}
-	
+
 }

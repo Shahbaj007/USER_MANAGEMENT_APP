@@ -17,6 +17,7 @@ import in.rahulit.entity.City;
 import in.rahulit.entity.Country;
 import in.rahulit.entity.State;
 import in.rahulit.entity.User;
+import in.rahulit.props.AppProps;
 import in.rahulit.repository.CityRepo;
 import in.rahulit.repository.CountryRepo;
 import in.rahulit.repository.StateRepo;
@@ -40,6 +41,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private EmailUtils emailUtils;
+	
+	@Autowired
+	private AppProps props;
 	
 	@Override
 	public Map<Integer, String> getCountries() {
@@ -104,7 +108,7 @@ public class UserServiceImpl implements UserService{
 		
 		userRepo.save(userEntity);
 		
-		String subject = "Your Account Created - Ashok IT.";
+		String subject = props.getMessages().get("regEmailSubject");
 		String body = "Your Password is : " + formObj.getPwd();
 		
 		return emailUtils.sendEmail(subject, body, formObj.getEmail());

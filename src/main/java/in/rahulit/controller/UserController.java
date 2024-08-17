@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import in.rahulit.bindings.LoginForm;
 import in.rahulit.bindings.RegisterForm;
 import in.rahulit.bindings.ResetPwdForm;
+import in.rahulit.constants.AppConstants;
 import in.rahulit.entity.User;
 import in.rahulit.props.AppProps;
 import in.rahulit.service.UserService;
@@ -41,9 +42,7 @@ public class UserController {
 		User user = userService.login(login);
 
 		if(user == null) {
-			Map<String, String> messages = props.getMessages();
-			String msg = messages.get("invalidLogin");
-			model.addAttribute("errMsg", msg);
+			model.addAttribute(AppConstants.ERROR_MSG, props.getMessages().get("invalidLogin"));
 			return "index";
 		}
 
@@ -65,7 +64,8 @@ public class UserController {
 	public String updatePwd(@ModelAttribute("resetPwd") ResetPwdForm resetPwd, Model model) {
 
 		if(!resetPwd.getNewPwd().equals(resetPwd.getConfirmPwd())) {
-			model.addAttribute("errMsg", "Both Pwd should be same");
+			
+			model.addAttribute(AppConstants.ERROR_MSG, props.getMessages().get("invalidPwds"));
 			return "resetPwd";
 		}
 
@@ -75,7 +75,7 @@ public class UserController {
 			return "redirect:dashboard";
 		}
 
-		model.addAttribute("errMsg", "Pwd update failed");
+		model.addAttribute(AppConstants.ERROR_MSG, props.getMessages().get("pwdUpdatedFailed"));
 
 		return "resetPwd";
 
@@ -116,9 +116,9 @@ public class UserController {
 		boolean saveUser = userService.saveUser(registerForm);
 
 		if(saveUser) {
-			model.addAttribute("succMsg", "Registration Success");
+			model.addAttribute(AppConstants.SUCC_MSG, props.getMessages().get("regSuccess"));
 		} else {
-			model.addAttribute("errMsg", "Registration Failed");
+			model.addAttribute(AppConstants.ERROR_MSG, props.getMessages().get("regFailure"));
 		}
 
 		Map<Integer, String> countries = userService.getCountries();

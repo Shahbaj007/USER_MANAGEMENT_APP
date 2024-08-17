@@ -3,6 +3,7 @@ package in.rahulit.service;
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -10,12 +11,16 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import in.rahulit.bindings.Quote;
+import in.rahulit.props.AppProps;
 
 
 @Service
 public class DashboardServiceImpl implements DashboardService {
-
-	private String url = "https://type.fit/api/quotes";
+	
+	@Autowired
+	private AppProps props;
+	
+	private String url = props.getMessages().get("quoteEndpointUrl");
 
 	private Quote[] quotes = null;
 
